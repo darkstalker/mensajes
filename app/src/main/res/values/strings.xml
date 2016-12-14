@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Test Messages</string>
+    <string name="app_name">Mensajero</string>
+    <string name="cmd_add">+</string>
+    <string name="header_question">Pregunta</string>
+    <string name="header_answer">Respuesta</string>
+    <string name="header_sender">Enviado por</string>
 </resources>
