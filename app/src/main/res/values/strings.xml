@@ -9,4 +9,8 @@
     <string name="txt_question">Pregunta</string>
     <string name="txt_answer">Respuesta</string>
     <string name="cmd_send">Enviar</string>
+    <string name="err_missing_name">Debe ingresar su nombre</string>
+    <string name="err_invalid_question">La pregunta debe ser un número válido</string>
+    <string name="err_missing_answer">Debe ingresar una respuesta</string>
+    <string name="msg_send_success">Enviado!</string>
 </resources>

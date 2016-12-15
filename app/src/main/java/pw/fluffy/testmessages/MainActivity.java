@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity
                     m_messages.clear();
                     for (MessageItem msg : response.body())
                     {
+                        Log.d("TestMessages", msg.toString());
                         m_messages.add(msg);
                     }
                     m_msgAdapter.notifyDataSetChanged();

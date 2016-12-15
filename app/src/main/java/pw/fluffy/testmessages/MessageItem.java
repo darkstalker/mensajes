@@ -1,17 +1,34 @@
 package pw.fluffy.testmessages;
 
-public class MessageItem
-{
-    public Integer id;
-    public Integer question;
-    public String answer;
-    public String sender;
-    //public String send_at;
+import java.util.Date;
 
-    MessageItem(int question, String answer, String sender)
+class MessageItem
+{
+    Integer id;
+    Integer question;
+    String answer;
+    String sender;
+    Date send_at;
+    //Date created_at;
+    //Date updated_at;
+
+    MessageItem(Integer question, String answer, String sender, Date send_at)
     {
         this.question = question;
         this.answer = answer;
         this.sender = sender;
+        this.send_at = send_at;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MessageItem{" +
+            "id=" + id +
+            ", question=" + question +
+            ", answer='" + answer + '\'' +
+            ", sender='" + sender + '\'' +
+            ", send_at=" + send_at +
+            '}';
     }
 }
