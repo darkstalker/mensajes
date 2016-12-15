@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<MessageItem> m_messages;
     private MessageListAdapter m_msgAdapter;
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity
         ListView m_lstMessages = (ListView)findViewById(R.id.lstMessages);
         if (savedInstanceState != null)
         {
+            // java hace type erasure en parametros genericos, asi que no se puede escribir
+            // una version type-safe de esto porque no hay informacion runtime.
+            // en teoría no deberia fallar
             m_messages = (ArrayList<MessageItem>)savedInstanceState.getSerializable("messages");
         }
         else
