@@ -2,10 +2,11 @@ package pw.fluffy.testmessages;
 
 public class MessageItem
 {
-    public int question;
+    public Integer id;
+    public Integer question;
     public String answer;
     public String sender;
-    //public String timestamp;
+    //public String send_at;
 
     MessageItem(int question, String answer, String sender)
     {

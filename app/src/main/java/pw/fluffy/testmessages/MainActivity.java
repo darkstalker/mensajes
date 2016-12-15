@@ -3,11 +3,17 @@ package pw.fluffy.testmessages;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -28,8 +34,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh()
             {
-                Toast.makeText(MainActivity.this, "(refresh)", Toast.LENGTH_LONG).show();
-                m_swipeContainer.setRefreshing(false);
+                //Toast.makeText(MainActivity.this, "(refresh)", Toast.LENGTH_SHORT).show();
+                update_list(true);
             }
         });
 
@@ -39,12 +45,60 @@ public class MainActivity extends AppCompatActivity
         m_lstMessages.setAdapter(m_msgAdapter);
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        update_list(false);
+    }
+
     public void cmdAdd_onclick(View v)
     {
-        Toast.makeText(this, "(nuevo mensaje)", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "(nuevo mensaje)", Toast.LENGTH_SHORT).show();
 
         // test
-        m_messages.add(new MessageItem(1, "a", "nadie"));
-        m_msgAdapter.notifyDataSetChanged();
+        //m_messages.add(new MessageItem(1, "a", "nadie"));
+        //m_msgAdapter.notifyDataSetChanged();
+    }
+
+    void update_list(final boolean is_refresh)
+    {
+        MessageService.instance().list(MessageService.auth).enqueue(new Callback<List<MessageItem>>()
+        {
+            @Override
+            public void onResponse(Call<List<MessageItem>> call, Response<List<MessageItem>> response)
+            {
+                if (is_refresh)
+                    m_swipeContainer.setRefreshing(false);
+
+                if (response.isSuccessful())
+                {
+                    m_messages.clear();
+                    for (MessageItem msg : response.body())
+                    {
+                        m_messages.add(msg);
+                    }
+                    m_msgAdapter.notifyDataSetChanged();
+                }
+                else
+                {
+                    String err;
+                    try { err = response.errorBody().string(); } catch (Exception e) { err = e.getLocalizedMessage(); }
+                    Log.e("TestMessages", err);
+                    Toast.makeText(MainActivity.this, err, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MessageItem>> call, Throwable t)
+            {
+                if (is_refresh)
+                    m_swipeContainer.setRefreshing(false);
+
+                String err = t.getLocalizedMessage();
+                Log.e("TestMessages", err);
+                Toast.makeText(MainActivity.this, err, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
