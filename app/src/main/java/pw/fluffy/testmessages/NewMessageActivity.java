@@ -1,5 +1,7 @@
 package pw.fluffy.testmessages;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +19,16 @@ import retrofit2.Response;
 
 public class NewMessageActivity extends AppCompatActivity
 {
+    private static final String PREF_NAME = "newmsg_name";
+    private static final String PREF_QUESTION = "newmsg_question";
+    private static final String PREF_ANSWER = "newmsg_answer";
+
     private EditText m_txtName;
     private EditText m_txtQuestion;
     private EditText m_txtAnswer;
     private Button m_cmdSend;
+
+    private SharedPreferences m_prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,6 +40,28 @@ public class NewMessageActivity extends AppCompatActivity
         m_txtQuestion = (EditText)findViewById(R.id.txtQuestion);
         m_txtAnswer = (EditText)findViewById(R.id.txtAnswer);
         m_cmdSend = (Button)findViewById(R.id.cmdSend);
+
+        m_prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        m_txtName.setText(m_prefs.getString(PREF_NAME, ""));
+        m_txtQuestion.setText(m_prefs.getString(PREF_QUESTION, ""));
+        m_txtAnswer.setText(m_prefs.getString(PREF_ANSWER, ""));
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        SharedPreferences.Editor prefs = m_prefs.edit();
+        prefs.putString(PREF_NAME, m_txtName.getText().toString());
+        prefs.putString(PREF_QUESTION, m_txtQuestion.getText().toString());
+        prefs.putString(PREF_ANSWER, m_txtAnswer.getText().toString());
+        prefs.apply();
+    }
+
+    private void clear_form()
+    {
+        m_txtQuestion.setText("");
+        m_txtAnswer.setText("");
     }
 
     public void cmdSend_onclick(View v)
@@ -76,6 +106,7 @@ public class NewMessageActivity extends AppCompatActivity
                     {
                         Log.d("TestMessages", response.body().toString());
                         Toast.makeText(NewMessageActivity.this, R.string.msg_send_success, Toast.LENGTH_SHORT).show();
+                        clear_form();
                         finish();
                     }
                     else
