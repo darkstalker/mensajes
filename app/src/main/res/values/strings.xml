@@ -4,4 +4,9 @@
     <string name="header_question">Pregunta</string>
     <string name="header_answer">Respuesta</string>
     <string name="header_sender">Enviado por</string>
+    <string name="title_newmsg">Nuevo mensaje</string>
+    <string name="txt_sender">Nombre</string>
+    <string name="txt_question">Pregunta</string>
+    <string name="txt_answer">Respuesta</string>
+    <string name="cmd_send">Enviar</string>
 </resources>

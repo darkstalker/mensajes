@@ -1,5 +1,6 @@
 package pw.fluffy.testmessages;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,11 +55,8 @@ public class MainActivity extends AppCompatActivity
 
     public void cmdAdd_onclick(View v)
     {
-        Toast.makeText(this, "(nuevo mensaje)", Toast.LENGTH_SHORT).show();
-
-        // test
-        //m_messages.add(new MessageItem(1, "a", "nadie"));
-        //m_msgAdapter.notifyDataSetChanged();
+        //Toast.makeText(this, "(nuevo mensaje)", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, NewMessageActivity.class));
     }
 
     void update_list(final boolean is_refresh)
