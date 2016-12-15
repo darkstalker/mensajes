@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh()
             {
-                //Toast.makeText(MainActivity.this, "(refresh)", Toast.LENGTH_SHORT).show();
                 update_list(true);
             }
         });
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity
 
     public void cmdAdd_onclick(View v)
     {
-        //Toast.makeText(this, "(nuevo mensaje)", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, NewMessageActivity.class));
     }
 
