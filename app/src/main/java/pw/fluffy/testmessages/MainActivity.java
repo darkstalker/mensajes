@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,8 +81,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    String err;
-                    try { err = response.errorBody().string(); } catch (Exception e) { err = e.getLocalizedMessage(); }
+                    String err = String.format(Locale.getDefault(), "Error %d: %s", response.code(), response.message());
                     Log.e("TestMessages", err);
                     Toast.makeText(MainActivity.this, err, Toast.LENGTH_LONG).show();
                 }

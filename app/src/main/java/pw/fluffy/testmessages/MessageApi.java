@@ -15,27 +15,27 @@ interface MessageApi
     // trae la lista de mensajes
     @GET("/messages.json")
     Call<List<MessageItem>> list(
-        @Header("Authorization") String auth
+        @Header("Authentication") String auth
     );
 
     // crea uno nuevo
     @POST("/messages.json")
     Call<MessageItem> create(
-        @Header("Authorization") String auth,
+        @Header("Authentication") String auth,
         @Body() MessageItem obj
     );
 
     // trae los datos del objeto con el id especificado
     @GET("/messages/{id}.json")
     Call<MessageItem> get(
-        @Header("Authorization") String auth,
+        @Header("Authentication") String auth,
         @Path("id") int id
     );
 
     // actualiza la información del objeto con el id especificado
     @PUT("/messages/{id}.json")
     Call<MessageItem> update(
-        @Header("Authorization") String auth,
+        @Header("Authentication") String auth,
         @Path("id") int id,
         @Body() MessageItem obj
     );
