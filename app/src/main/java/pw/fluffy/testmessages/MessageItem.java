@@ -1,8 +1,9 @@
 package pw.fluffy.testmessages;
 
+import java.io.Serializable;
 import java.util.Date;
 
-class MessageItem
+class MessageItem implements Serializable
 {
     Integer id;
     Integer question;

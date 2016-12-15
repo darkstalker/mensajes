@@ -19,6 +19,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
 {
+    private final int REQUEST_SENDMSG = 42;
+
     private SwipeRefreshLayout m_swipeContainer;
 
     private ArrayList<MessageItem> m_messages;
@@ -41,7 +43,14 @@ public class MainActivity extends AppCompatActivity
         });
 
         ListView m_lstMessages = (ListView)findViewById(R.id.lstMessages);
-        m_messages = new ArrayList<>();
+        if (savedInstanceState != null)
+        {
+            m_messages = (ArrayList<MessageItem>)savedInstanceState.getSerializable("messages");
+        }
+        else
+        {
+            m_messages = new ArrayList<>();
+        }
         m_msgAdapter = new MessageListAdapter(m_messages, this);
         m_lstMessages.setAdapter(m_msgAdapter);
     }
@@ -50,12 +59,34 @@ public class MainActivity extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        update_list(false);
+        // esto deberia ejecutarse solo en la carga inicial de datos
+        if (m_messages.isEmpty())
+        {
+            update_list(false);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("messages", m_messages);
     }
 
     public void cmdAdd_onclick(View v)
     {
-        startActivity(new Intent(this, NewMessageActivity.class));
+        startActivityForResult(new Intent(this, NewMessageActivity.class), REQUEST_SENDMSG);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // hace un refresh despues de enviar
+        if (requestCode == REQUEST_SENDMSG && resultCode == RESULT_OK)
+        {
+            update_list(false);
+        }
     }
 
     void update_list(final boolean is_refresh)

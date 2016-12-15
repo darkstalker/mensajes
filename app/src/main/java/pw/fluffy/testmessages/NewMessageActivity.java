@@ -107,6 +107,7 @@ public class NewMessageActivity extends AppCompatActivity
                         Log.d("TestMessages", response.body().toString());
                         Toast.makeText(NewMessageActivity.this, R.string.msg_send_success, Toast.LENGTH_SHORT).show();
                         clear_form();
+                        setResult(RESULT_OK);
                         finish();
                     }
                     else
